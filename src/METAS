@@ -1,0 +1,17 @@
+ - Artes / Sprites (Jogadores, Intens, NPCs, Inimigos, etc...);
+ - Sistema de animação para jogador;
+ - Controle pelo teclado;
+ - Sistema de atirar;
+ - Sistema de criação de mapa;
+ - Múltiplos níveis;
+ - Inimigos;
+ - Chefes;
+ - Coleta de itens;
+ - Aumento de atributos por itens;
+ - Sofrer dano;
+ - Saves e loads;
+ - Pauda, Game Over e Menu de Start;
+ - Sistema de som.
+ 
+ - 	Olha, pros atalhos no paint.net, vai em 
+ 	https://www.getpaint.net/doc/latest/KeyboardMouseCommands.html
