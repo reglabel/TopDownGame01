@@ -196,66 +196,66 @@ public class Menu {
 		
 		g2.setColor(new Color(0,0,0,120));
 		
-		//tamanho tela cheia
-		g2.fillRect(10, 10, Toolkit.getDefaultToolkit().getScreenSize().width - 20, Toolkit.getDefaultToolkit().getScreenSize().height - 20);
-		
-		g.setColor(Color.YELLOW);
-		g.setFont(new Font("arial", Font.BOLD, 90));
-		g.drawString("-= yUP =-", (Toolkit.getDefaultToolkit().getScreenSize().width) / 2 - 200, (Toolkit.getDefaultToolkit().getScreenSize().height) / 2 - 70);
-		
-		g.setColor(Color.WHITE);
-		
-		g.setFont(new Font("arial", Font.BOLD, 36));
-		if(!pause) {
-			g.drawString(options[0], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
-		} else {
-			g.drawString(ocultOptions[0], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
-		}
-		g.drawString(options[1], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.73*Toolkit.getDefaultToolkit().getScreenSize().height));
-		g.drawString(options[2], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.833*Toolkit.getDefaultToolkit().getScreenSize().height));
-		
-		g.setColor(Color.YELLOW);
-		if(options[currentOption].equals(options[0])) {
+		if(Game.modeGame.equals("FULLSCREEN")) {
+			g2.fillRect(10, 10, Toolkit.getDefaultToolkit().getScreenSize().width - 20, Toolkit.getDefaultToolkit().getScreenSize().height - 20);
+			
+			g.setColor(Color.YELLOW);
+			g.setFont(new Font("arial", Font.BOLD, 90));
+			g.drawString("-= yUP =-", (Toolkit.getDefaultToolkit().getScreenSize().width) / 2 - 200, (Toolkit.getDefaultToolkit().getScreenSize().height) / 2 - 70);
+			
+			g.setColor(Color.WHITE);
+			
+			g.setFont(new Font("arial", Font.BOLD, 36));
 			if(!pause) {
-				g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
+				g.drawString(options[0], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
 			} else {
-				g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
+				g.drawString(ocultOptions[0], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
 			}
-		} else if (options[currentOption].equals(options[1])) {
-			g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.73*Toolkit.getDefaultToolkit().getScreenSize().height));
-		} else if (options[currentOption].equals(options[2])) {
-			g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.833*Toolkit.getDefaultToolkit().getScreenSize().height));
-		}
-		
-		//tamanho janela
-		/*g2.fillRect(10, 10, Game.WIDTH*Game.SCALE - 20, Game.HEIGHT*Game.SCALE - 20);
-		
-		g.setColor(Color.YELLOW);
-		g.setFont(new Font("arial", Font.BOLD, 90));
-		g.drawString("-= yUP =-", (Game.WIDTH*Game.SCALE) / 2 - 200, (Game.HEIGHT*Game.SCALE) / 2 - 70);
-		
-		g.setColor(Color.WHITE);
-		
-		g.setFont(new Font("arial", Font.BOLD, 36));
-		if(!pause) {
-			g.drawString(options[0], 280 - 180, 300);
-		} else {
-			g.drawString(ocultOptions[0], 230 - 120, 300);
-		}
-		g.drawString(options[1], 220 - 8 - 120, 350);
-		g.drawString(options[2], 283 - 7 - 120, 400);
-		
-		g.setColor(Color.YELLOW);
-		if(options[currentOption].equals(options[0])) {
+			g.drawString(options[1], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.73*Toolkit.getDefaultToolkit().getScreenSize().height));
+			g.drawString(options[2], (int)(0.13*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.833*Toolkit.getDefaultToolkit().getScreenSize().height));
+			
+			g.setColor(Color.YELLOW);
+			if(options[currentOption].equals(options[0])) {
+				if(!pause) {
+					g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
+				} else {
+					g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.625*Toolkit.getDefaultToolkit().getScreenSize().height));
+				}
+			} else if (options[currentOption].equals(options[1])) {
+				g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.73*Toolkit.getDefaultToolkit().getScreenSize().height));
+			} else if (options[currentOption].equals(options[2])) {
+				g.drawString(">", (int)(0.06*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.833*Toolkit.getDefaultToolkit().getScreenSize().height));
+			}
+		} else if(Game.modeGame.equals("WINDOW")) {
+			g2.fillRect(10, 10, Game.WIDTH*Game.SCALE - 20, Game.HEIGHT*Game.SCALE - 20);
+			
+			g.setColor(Color.YELLOW);
+			g.setFont(new Font("arial", Font.BOLD, 90));
+			g.drawString("-= yUP =-", (Game.WIDTH*Game.SCALE) / 2 - 200, (Game.HEIGHT*Game.SCALE) / 2 - 70);
+			
+			g.setColor(Color.WHITE);
+			
+			g.setFont(new Font("arial", Font.BOLD, 36));
 			if(!pause) {
-				g.drawString(">", 280 - 50 - 180, 300);
+				g.drawString(options[0], 280 - 180, 300);
 			} else {
-				g.drawString(">", 230 - 50 - 120, 300);
+				g.drawString(ocultOptions[0], 230 - 120, 300);
 			}
-		} else if (options[currentOption].equals(options[1])) {
-			g.drawString(">", 220 - 8 - 50 - 120, 350);
-		} else if (options[currentOption].equals(options[2])) {
-			g.drawString(">", 283 - 7 - 50 - 120, 400);
-		}*/ 
+			g.drawString(options[1], 220 - 8 - 120, 350);
+			g.drawString(options[2], 283 - 7 - 120, 400);
+			
+			g.setColor(Color.YELLOW);
+			if(options[currentOption].equals(options[0])) {
+				if(!pause) {
+					g.drawString(">", 280 - 50 - 180, 300);
+				} else {
+					g.drawString(">", 230 - 50 - 120, 300);
+				}
+			} else if (options[currentOption].equals(options[1])) {
+				g.drawString(">", 220 - 8 - 50 - 120, 350);
+			} else if (options[currentOption].equals(options[2])) {
+				g.drawString(">", 283 - 7 - 50 - 120, 400);
+			}
+		}
 	}
 }

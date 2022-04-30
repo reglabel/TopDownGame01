@@ -29,6 +29,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import com.rbcl.entities.Enemy;
 import com.rbcl.entities.Entity;
@@ -87,6 +88,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public int[] pixels;
 	//public int xx, yy;
 	
+	public static String modeGame = "WINDOW"; //FULLSCREEN
 	
 	public static void main(String[] args) {
 		Game game = new Game();
@@ -99,8 +101,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		//this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE)); //tamanho janela
-		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize())); //tamanho tela cheia
+		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		this.initFrame();
 		
 		ui = new UI();
@@ -143,7 +144,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public void initFrame() {
 		frame = new JFrame("will you play along?");
 		frame.add(this);
-		frame.setUndecorated(true); //tira botoes de maximizar e fechar
 		frame.setResizable(false);
 		frame.pack();
 		//Icone da Janela
@@ -309,66 +309,84 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		
 		//drawRectangleExample(xx, yy);
 
-		//g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null); //tamanho janela
-		g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); //tamanho tela cheia
-		g.setFont(new Font("arial", Font.BOLD, 25));
-		g.setColor(Color.WHITE);
-		g.drawString("Ammo: " + player.ammo, (int)(0.79*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.07*Toolkit.getDefaultToolkit().getScreenSize().height));
-		
-		g.setFont(new Font("arial", Font.BOLD, 18));
-		g.setColor(Color.WHITE);
-		g.drawString("FPS: " + fps, (int)(0.79*Toolkit.getDefaultToolkit().getScreenSize().width) + 2, (int)(0.07*Toolkit.getDefaultToolkit().getScreenSize().height) + 30);
-
-		if(gameState.equals("GAME_OVER")) {
-			Graphics2D g2 = (Graphics2D) g;
+		if(Game.modeGame.equals("WINDOW")) {
+			g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
 			
-			g2.setColor(new Color(0,0,0,150));
-			g2.fillRect(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-			g2.setFont(new Font("arial", Font.BOLD, 35));
-			g2.setColor(Color.WHITE);
-			g2.drawString("Oh NO! Guess what?", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 170, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 40);
-			g2.setColor(Color.RED);
-			g2.drawString("You DIED!", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 90, Toolkit.getDefaultToolkit().getScreenSize().height / 2 + 50 - 40);
-			g2.setFont(new Font("arial", Font.BOLD, 20));
-			g2.setColor(Color.WHITE);
+			g.setFont(new Font("arial", Font.BOLD, 25));
+			g.setColor(Color.WHITE);
+			g.drawString("Ammo: " + player.ammo, 575, 35);
 			
-			if(showMessageGameOver) {
-				g2.drawString("-= press ENTER to try again =-", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 145, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 40 + 100);
+			g.setFont(new Font("arial", Font.BOLD, 18));
+			g.setColor(Color.WHITE);
+			g.drawString("FPS: " + fps, 575 + 2, 35 + 30);
+			
+			g.setFont(new Font("arial", Font.BOLD, 12));
+			g.setColor(Color.WHITE);
+			g.drawString("Aperte 'F' para FULLSCREEN", 25, 460);
+			
+			if(gameState.equals("GAME_OVER")) {
+				Graphics2D g2 = (Graphics2D) g;
+				
+				g2.setColor(new Color(0,0,0,150));
+				g2.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+				g2.setFont(new Font("arial", Font.BOLD, 35));
+				g2.setColor(Color.WHITE);
+				g2.drawString("Oh NO! Guess what?", (WIDTH*SCALE) / 2 - 170, (HEIGHT*SCALE) / 2 - 40);
+				g2.setColor(Color.RED);
+				g2.drawString("You DIED!", (WIDTH*SCALE) / 2 - 90, (HEIGHT*SCALE) / 2 + 50 - 40);
+				g2.setFont(new Font("arial", Font.BOLD, 20));
+				g2.setColor(Color.WHITE);
+				
+				if(showMessageGameOver) {
+					g2.drawString("-= press ENTER to try again =-", (WIDTH*SCALE) / 2 - 145, (HEIGHT*SCALE) / 2 - 40 + 100);
+				}
+			} else if(gameState.equals("MENU")) {
+				player.updateCamera();
+				menu.render(g);
 			}
-		} else if(gameState.equals("MENU")) {
-			player.updateCamera();
-			menu.render(g);
-		} //menu tela cheia
-		
-		/*g.setFont(new Font("arial", Font.BOLD, 25));
-		g.setColor(Color.WHITE);
-		g.drawString("Ammo: " + player.ammo, 575, 35);
-		
-		g.setFont(new Font("arial", Font.BOLD, 18));
-		g.setColor(Color.WHITE);
-		g.drawString("FPS: " + fps, 575 + 2, 35 + 30);
-
-		if(gameState.equals("GAME_OVER")) {
-			Graphics2D g2 = (Graphics2D) g;
 			
-			g2.setColor(new Color(0,0,0,150));
-			g2.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
-			g2.setFont(new Font("arial", Font.BOLD, 35));
-			g2.setColor(Color.WHITE);
-			g2.drawString("Oh NO! Guess what?", (WIDTH*SCALE) / 2 - 170, (HEIGHT*SCALE) / 2 - 40);
-			g2.setColor(Color.RED);
-			g2.drawString("You DIED!", (WIDTH*SCALE) / 2 - 90, (HEIGHT*SCALE) / 2 + 50 - 40);
-			g2.setFont(new Font("arial", Font.BOLD, 20));
-			g2.setColor(Color.WHITE);
+			World.renderMiniMapa();
+			g.drawImage(minimapa, Game.WIDTH*SCALE-(120), Game.HEIGHT*SCALE-(120), 100, 100, null);
 			
-			if(showMessageGameOver) {
-				g2.drawString("-= press ENTER to try again =-", (WIDTH*SCALE) / 2 - 145, (HEIGHT*SCALE) / 2 - 40 + 100);
+		} else if (Game.modeGame.equals("FULLSCREEN")) {
+			g.drawImage(image, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, null); //tamanho tela cheia
+			g.setFont(new Font("arial", Font.BOLD, 30));
+			g.setColor(Color.WHITE);
+			g.drawString("Ammo: " + player.ammo, (int)(0.79*Toolkit.getDefaultToolkit().getScreenSize().width), (int)(0.07*Toolkit.getDefaultToolkit().getScreenSize().height));
+			
+			g.setFont(new Font("arial", Font.BOLD, 20));
+			g.setColor(Color.WHITE);
+			g.drawString("FPS: " + fps, (int)(0.79*Toolkit.getDefaultToolkit().getScreenSize().width) + 2, (int)(0.07*Toolkit.getDefaultToolkit().getScreenSize().height) + 30);
+			
+			g.setFont(new Font("arial", Font.BOLD, 18));
+			g.setColor(Color.WHITE);
+			g.drawString("Aperte 'F' para WINDOW MODE", 50, Toolkit.getDefaultToolkit().getScreenSize().height-30);
+			
+			if(gameState.equals("GAME_OVER")) {
+				Graphics2D g2 = (Graphics2D) g;
+				
+				g2.setColor(new Color(0,0,0,150));
+				g2.fillRect(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+				g2.setFont(new Font("arial", Font.BOLD, 35));
+				g2.setColor(Color.WHITE);
+				g2.drawString("Oh NO! Guess what?", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 170, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 40);
+				g2.setColor(Color.RED);
+				g2.drawString("You DIED!", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 90, Toolkit.getDefaultToolkit().getScreenSize().height / 2 + 50 - 40);
+				g2.setFont(new Font("arial", Font.BOLD, 20));
+				g2.setColor(Color.WHITE);
+				
+				if(showMessageGameOver) {
+					g2.drawString("-= press ENTER to try again =-", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 145, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 40 + 100);
+				}
+			} else if(gameState.equals("MENU")) {
+				player.updateCamera();
+				menu.render(g);
 			}
-		} else if(gameState.equals("MENU")) {
-			player.updateCamera();
-			menu.render(g);
-		}*/ //menu com tamanho janela
-		
+			
+			World.renderMiniMapa();
+			g.drawImage(minimapa, Toolkit.getDefaultToolkit().getScreenSize().width-(120), Toolkit.getDefaultToolkit().getScreenSize().height-(120), 100, 100, null);
+		}
+
 		/*
 		g.setFont(newfont);
 		g.setColor(Color.RED);
@@ -383,10 +401,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		g.fillRect(200,200,50,50);
 		*/
 		
-		World.renderMiniMapa();
-		//g.drawImage(minimapa, Game.WIDTH*SCALE-(World.WIDTH*5)-20, Game.HEIGHT*SCALE-(World.HEIGHT*5)-20, World.WIDTH*5, World.HEIGHT*5, null);
-		g.drawImage(minimapa, Toolkit.getDefaultToolkit().getScreenSize().width-(120), Toolkit.getDefaultToolkit().getScreenSize().height-(120), 100, 100, null); //modo tela cheia
-		//g.drawImage(minimapa, Game.WIDTH*SCALE-(120), Game.HEIGHT*SCALE-(120), 100, 100, null); //modo janela
 		bs.show();
 	}
 
@@ -475,6 +489,30 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		if(e.getKeyCode() == KeyEvent.VK_S) {
 			if(gameState.equals("NORMAL")) {
 				this.saveGame = true;
+			}
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_F) {
+			if(Game.modeGame.equals("WINDOW")) {
+				frame.dispose();
+				frame.setUndecorated(true);
+				setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+				SwingUtilities.updateComponentTreeUI(Game.frame);
+				frame.pack();
+				frame.setVisible(true);
+				Game.modeGame = "FULLSCREEN";
+				frame.setLocationRelativeTo(null);
+				requestFocus();
+			} else if(Game.modeGame.equals("FULLSCREEN")) {
+				frame.dispose();
+				frame.setUndecorated(false);
+				this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+				SwingUtilities.updateComponentTreeUI(Game.frame);
+				frame.pack();
+				frame.setVisible(true);
+				Game.modeGame = "WINDOW";
+				frame.setLocationRelativeTo(null);
+				requestFocus();
 			}
 		}
 		
