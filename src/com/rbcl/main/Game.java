@@ -84,8 +84,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	//public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelfont.ttf");
 	//public Font newfont;
 	
-	//public int[] pixels;
+	public int[] pixels;
 	//public int xx, yy;
+	
 	
 	public static void main(String[] args) {
 		Game game = new Game();
@@ -111,7 +112,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 		lightMapPixels = new int[lightmap.getWidth() * lightmap.getHeight()];
 		lightmap.getRGB(0, 0, lightmap.getWidth(), lightmap.getHeight(), lightMapPixels, 0, lightmap.getWidth());
-		//pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 		entities = new ArrayList<Entity>();
 		enemies = new ArrayList<Enemy>();
 		weaponShoots = new ArrayList<WeaponShoot>();
@@ -263,17 +264,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	}
 	*/
 	
-	/*
+	
 	public void applyLight() {
 		for(int xx=0; xx < Game.WIDTH; xx++) {
 			for(int yy=0; yy < Game.HEIGHT; yy++) {
 				if(lightMapPixels[xx+(yy*Game.WIDTH)] == 0xffffffff) {
-					pixels[xx+(yy*Game.WIDTH)] = 0;
+					int pixel = Pixel.getLightBlend(pixels[xx+(yy*Game.WIDTH)], 0x808080, 0);
+					pixels[xx+(yy*Game.WIDTH)] = pixel;
 				}
 			}
 		}
 	}
-	*/
+	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		
@@ -299,7 +301,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			weaponShoots.get(i).render(g);
 		}
 		
-		//applyLight();
+		applyLight();
 		ui.render(g);
 		
 		g.dispose(); // para otimização
